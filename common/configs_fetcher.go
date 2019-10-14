@@ -7,11 +7,11 @@ import (
 
 type (
 	ProjectRepositoryConfig struct {
-		ProjectName    string `mapstructure:"project"`
+		ProjectKey     string `mapstructure:"project"`
 		RepositoryName string `mapstructure:"repository"`
 	}
 	ProjectsRepositories struct {
-		ProjectsNames     []string
+		ProjectsKeys      []string
 		RepositoriesNames []string
 	}
 )
@@ -31,12 +31,12 @@ func mapToProjectsRepositoriesSlices(prc *[]ProjectRepositoryConfig) *ProjectsRe
 
 	// Iterate over configs and group items
 	for _, c := range *prc {
-		projectsNames = append(projectsNames, c.ProjectName)
+		projectsNames = append(projectsNames, c.ProjectKey)
 		repositoriesNames = append(repositoriesNames, c.RepositoryName)
 	}
 
 	pr := ProjectsRepositories{
-		ProjectsNames:     projectsNames,
+		ProjectsKeys:      projectsNames,
 		RepositoriesNames: repositoriesNames,
 	}
 

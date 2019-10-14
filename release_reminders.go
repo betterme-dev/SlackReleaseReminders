@@ -2,10 +2,12 @@ package main
 
 import (
 	"SlackReleaseReminders/common"
+	"SlackReleaseReminders/handlers"
 	"SlackReleaseReminders/logger"
 )
 
 func main() {
-	logger.Instance().Printf("Projects repositories config: %s\n", common.ProjectRepConfig)
-	logger.Instance().Printf("Projects repositories values: %s\n", common.ProjectsRepositoriesValues)
+	jPKeys := common.ProjectsRepositoriesValues.ProjectsKeys
+	jiraVersions := handlers.RetrieveJiraVersionsByKeys(jPKeys)
+	logger.Instance().Printf("Versions: %s\n", jiraVersions)
 }
