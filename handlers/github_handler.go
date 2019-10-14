@@ -48,7 +48,7 @@ func FetchRepositoriesReleases(repositoriesNames *[]string) *[]GitHubRepoRelease
 			return repoReleases[i].PublishedAt.Time.Before(repoReleases[j].PublishedAt.Time)
 		})
 
-		// Iterate over all repository releases and grab releases tags names, extracting versions from them
+		// Iterate over all repository releases and grab releases tags names, extracting versions symbols from them
 		tagsNames := make([]string, 0)
 		for _, release := range repoReleases {
 			tagsNames = append(tagsNames, strings.TrimFunc(*release.TagName, func(r rune) bool {

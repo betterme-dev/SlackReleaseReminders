@@ -6,10 +6,12 @@ import (
 )
 
 type (
+	// Simply just a named map with Jira Project Key as key and GitHub Repository Name as value
 	ProjectRepositoryConfig struct {
 		ProjectKey     string `mapstructure:"project"`
 		RepositoryName string `mapstructure:"repository"`
 	}
+	// Holder for grouped project keys and repositories names (used for fetching info from Jira and GitHub APIs)
 	ProjectsRepositories struct {
 		ProjectsKeys      []string
 		RepositoriesNames []string
