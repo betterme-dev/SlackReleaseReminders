@@ -16,6 +16,8 @@ type (
 	}
 )
 
+const VersionToCheck = 4
+
 var ProjectRepConfig *[]ProjectRepositoryConfig
 var ProjectsRepositoriesValues *ProjectsRepositories
 

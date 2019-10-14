@@ -10,5 +10,5 @@ func main() {
 	jPKeys := common.ProjectsRepositoriesValues.ProjectsKeys
 	jiraVersions := handlers.RetrieveJiraVersionsByKeys(jPKeys)
 	logger.Instance().Printf("Versions: %s\n", jiraVersions)
-	logger.Instance().Printf("Repos: %s\n", handlers.FetchRepositoriesByNames(&common.ProjectsRepositoriesValues.RepositoriesNames))
+	logger.Instance().Printf("Repos: %s\n", handlers.FetchRepositoriesReleases(&common.ProjectsRepositoriesValues.RepositoriesNames))
 }

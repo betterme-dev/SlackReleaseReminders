@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"SlackReleaseReminders/common"
 	"SlackReleaseReminders/logger"
 	"github.com/andygrunwald/go-jira"
 	"os"
@@ -18,8 +19,6 @@ type (
 		LatestVersions []string // Size is equal to lastNVersions
 	}
 )
-
-const lastNVersions = 4
 
 var jiraConfigs *JiraConfig
 var jiraClient *jira.Client
@@ -58,8 +57,8 @@ func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 		versionNames = append(versionNames, version.Name)
 	}
 
-	// If there are less than lastNVersions in the project - take all of them
-	if len(versionNames) <= lastNVersions {
+	// If there are less than VersionToCheck in the project - take all of them
+	if len(versionNames) <= common.VersionToCheck {
 		return &JiraRecentVersions{
 			ProjectKey:     project.Key,
 			LatestVersions: versionNames,
@@ -68,7 +67,7 @@ func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 		// Otherwise take last 4 versions
 		return &JiraRecentVersions{
 			ProjectKey:     project.Key,
-			LatestVersions: versionNames[len(versionNames)-lastNVersions:],
+			LatestVersions: versionNames[len(versionNames)-common.VersionToCheck:],
 		}
 	}
 }
