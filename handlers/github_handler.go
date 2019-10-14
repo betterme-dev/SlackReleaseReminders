@@ -31,12 +31,12 @@ func FetchRepositoriesByNames(repositoriesNames *[]string) *[]github.Repository 
 	// Request all repos list in organisation
 	repos, _, err := gitHubClient.Repositories.ListByOrg(context.Background(), organizationName, &github.RepositoryListByOrgOptions{})
 	if err != nil {
-		logger.Instance().Errorf("Failed to fetch repositories for organization: %s", err)
+		logger.Instance().Errorf("Failed to fetch repositories for organization: %s\n", err)
 	}
 	// Selecting those we are interested in
 	for _, repoName := range *repositoriesNames {
 		for _, repo := range repos {
-			if repo.Name == &repoName {
+			if *repo.Name == repoName {
 				foundRepos = append(foundRepos, *repo)
 			}
 		}
