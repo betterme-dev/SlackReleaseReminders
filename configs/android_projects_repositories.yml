@@ -1,0 +1,11 @@
+projects-repositories:
+  - project: 'WLA'
+    repository: 'ANDROID_BETTERME'
+  - project: 'MEDA'
+    repository: 'Meditation-Android'
+  - project: 'MENA'
+    repository: 'BetterMen-Android'
+  - project: 'WA'
+    repository: 'Walking-Android'
+  - project: 'RA'
+    repository: 'Running-Android'
