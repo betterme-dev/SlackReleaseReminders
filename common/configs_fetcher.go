@@ -24,7 +24,6 @@ func init() {
 	ProjectsRepositoriesValues = mapToProjectsRepositoriesSlices(ProjectRepConfig)
 }
 
-// Returns lazy-loaded grouped project and repository names
 func mapToProjectsRepositoriesSlices(prc *[]ProjectRepositoryConfig) *ProjectsRepositories {
 	projectsNames := make([]string, 0)
 	repositoriesNames := make([]string, 0)
