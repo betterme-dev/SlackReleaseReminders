@@ -3,6 +3,8 @@ package common
 import (
 	"SlackReleaseReminders/logger"
 	"github.com/spf13/viper"
+	"path/filepath"
+	"runtime"
 )
 
 type (
@@ -50,9 +52,9 @@ func readConfigs() *[]ProjectRepositoryConfig {
 	// setup viper
 	viper.Reset()
 	viper.SetConfigType("yaml")
+	viper.AddConfigPath(getBasePath() + "/configs")
 	//viper.SetConfigName(os.Getenv("PROJECTS_REPOSITORIES_CONFIG"))
 	viper.SetConfigName("android_projects_repositories")
-	viper.AddConfigPath("configs")
 	// read config and check if any error occurs
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -67,4 +69,9 @@ func readConfigs() *[]ProjectRepositoryConfig {
 	}
 
 	return conf
+}
+
+func getBasePath() string {
+	_, b, _, _ := runtime.Caller(0)
+	return filepath.Dir(b)
 }
