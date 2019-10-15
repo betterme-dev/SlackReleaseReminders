@@ -3,12 +3,20 @@ package main
 import (
 	"SlackReleaseReminders/common"
 	"SlackReleaseReminders/handlers"
-	"SlackReleaseReminders/logger"
+	"SlackReleaseReminders/merger"
 )
 
 func main() {
-	jPKeys := common.ProjectsRepositoriesValues.ProjectsKeys
-	jiraVersions := handlers.RetrieveJiraVersionsByKeys(jPKeys)
-	logger.Instance().Printf("Versions: %s\n", jiraVersions)
-	logger.Instance().Printf("Repos: %s\n", handlers.FetchRepositoriesReleases(&common.ProjectsRepositoriesValues.RepositoriesNames))
+	configs, groupedConfigs := common.FetchConfigs()
+	jiraVersions := handlers.RetrieveJiraVersionsByKeys(groupedConfigs.ProjectsKeys)
+	repositoriesReleases := handlers.FetchRepositoriesReleases(&groupedConfigs.RepositoriesNames)
+	mergedResults := merger.MergeProjectRepositoryConfigWithJiraVersions(configs, jiraVersions)
+
+	for _, mr := range *mergedResults {
+		for _, rr := range *repositoriesReleases {
+			if mr.RepositoryName == rr.RepositoryName {
+
+			}
+		}
+	}
 }

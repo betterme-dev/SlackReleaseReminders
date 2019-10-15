@@ -22,33 +22,7 @@ type (
 
 const VersionToCheck = 4
 
-var ProjectRepConfig *[]ProjectRepositoryConfig
-var ProjectsRepositoriesValues *ProjectsRepositories
-
-func init() {
-	ProjectRepConfig = readConfigs()
-	ProjectsRepositoriesValues = mapToProjectsRepositoriesSlices(ProjectRepConfig)
-}
-
-func mapToProjectsRepositoriesSlices(prc *[]ProjectRepositoryConfig) *ProjectsRepositories {
-	projectsNames := make([]string, 0)
-	repositoriesNames := make([]string, 0)
-
-	// Iterate over configs and group items
-	for _, c := range *prc {
-		projectsNames = append(projectsNames, c.ProjectKey)
-		repositoriesNames = append(repositoriesNames, c.RepositoryName)
-	}
-
-	pr := ProjectsRepositories{
-		ProjectsKeys:      projectsNames,
-		RepositoriesNames: repositoriesNames,
-	}
-
-	return &pr
-}
-
-func readConfigs() *[]ProjectRepositoryConfig {
+func FetchConfigs() (*[]ProjectRepositoryConfig, *ProjectsRepositories) {
 	// setup viper
 	viper.Reset()
 	viper.SetConfigType("yaml")
@@ -68,7 +42,25 @@ func readConfigs() *[]ProjectRepositoryConfig {
 		logger.Instance().Errorf("Unable to decode into config struct, %s\n", err)
 	}
 
-	return conf
+	return conf, mapToProjectsRepositoriesSlices(conf)
+}
+
+func mapToProjectsRepositoriesSlices(prc *[]ProjectRepositoryConfig) *ProjectsRepositories {
+	projectsNames := make([]string, 0)
+	repositoriesNames := make([]string, 0)
+
+	// Iterate over configs and group items
+	for _, c := range *prc {
+		projectsNames = append(projectsNames, c.ProjectKey)
+		repositoriesNames = append(repositoriesNames, c.RepositoryName)
+	}
+
+	pr := ProjectsRepositories{
+		ProjectsKeys:      projectsNames,
+		RepositoriesNames: repositoriesNames,
+	}
+
+	return &pr
 }
 
 func getBasePath() string {
