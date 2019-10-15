@@ -23,6 +23,7 @@ type (
 const (
 	VersionToCheck   = 4
 	OrganizationName = "betterme-dev"
+	configKey        = "projects-repositories"
 )
 
 // Fetches configs Jira Project Key - Repository name pairs, separate values as slice
@@ -41,7 +42,7 @@ func FetchConfigs() (*[]ProjectRepositoryConfig, *ProjectsRepositories) {
 
 	var conf *[]ProjectRepositoryConfig
 	// unmarshal read configs to the struct
-	err = viper.UnmarshalKey("projects-repositories", &conf)
+	err = viper.UnmarshalKey(configKey, &conf)
 	if err != nil {
 		logger.Instance().Errorf("Unable to decode into config struct, %s\n", err)
 	}

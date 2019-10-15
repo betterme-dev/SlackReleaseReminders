@@ -15,25 +15,20 @@ type (
 	}
 )
 
-const gitHubUrlScheme = "https://github.com/" + common.OrganizationName + "/"
+const (
+	gitHubUrlScheme = "https://github.com/" + common.OrganizationName + "/"
+)
 
 func SendSlackAlarm(repositoryName string, releaseVersion string) {
 	// Get Slack config
 	configs := retrieveSlackConfigs()
 
-	// Format message - repo name + repo version
-	message := fmt.Sprintf("Repository: %s not tagged with release verison: %s", repositoryName, releaseVersion)
-
-	// Add repo url through the attachment
-	attachment := slack.Attachment{}
-	attachment.AddAction(slack.Action{Type: "button", Text: "RepoURL", Url: gitHubUrlScheme + repositoryName, Style: "danger"})
-
 	// Construct payload
 	payload := slack.Payload{
 		Username:    "Release tag reminder",
-		Text:        message,
+		Text:        "",
 		Channel:     configs.ChannelName,
-		Attachments: []slack.Attachment{attachment},
+		Attachments: []slack.Attachment{prepareAttachment(repositoryName, releaseVersion)},
 	}
 
 	// Try to send Slack message
@@ -42,6 +37,35 @@ func SendSlackAlarm(repositoryName string, releaseVersion string) {
 	if err != nil {
 		logger.Instance().Errorln("Failed to send slack alarm: %s", err)
 	}
+}
+
+func prepareAttachment(repositoryName string, releaseVersion string) slack.Attachment {
+	repoLink := gitHubUrlScheme + repositoryName
+	messageColor := "danger"
+	attachment := slack.Attachment{}
+	attachment.Title = &repositoryName
+	attachment.TitleLink = &repoLink
+	attachment.Color = &messageColor
+	attachmentFields := []*slack.Field{
+		{
+			Title: "Message: ",
+			Value: fmt.Sprint("Forgot to Git Tag new release version 🤦🏻 ‍"),
+			Short: false,
+		},
+		{
+			Title: "Repository: ",
+			Value: repositoryName,
+			Short: false,
+		},
+		{
+			Title: "Version in Jira: ",
+			Value: releaseVersion,
+			Short: false,
+		},
+	}
+	attachment.Fields = attachmentFields
+
+	return attachment
 }
 
 // Retrieves jiraConfigs from environment, probably Jenkins

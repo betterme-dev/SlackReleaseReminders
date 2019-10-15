@@ -29,8 +29,12 @@ func main() {
 	if len(*diffResult) > 0 {
 		for _, repo := range *diffResult {
 			for _, version := range repo.MissedVersions {
+				logger.Instance().Printf("Sending reminder for repo: %s about version: %s\n", repo.RepoName, version)
 				handlers.SendSlackAlarm(repo.RepoName, version)
+				logger.Instance().Printf("Message sent!")
 			}
 		}
+	} else {
+		logger.Instance().Println("Diffs not found, nothing to remind about!")
 	}
 }
