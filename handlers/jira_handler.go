@@ -20,11 +20,9 @@ type (
 	}
 )
 
-var jiraConfigs *JiraConfig
 var jiraClient *jira.Client
 
 func init() {
-	jiraConfigs = retrieveConfigs()
 	jiraClient = createJiraClient()
 }
 
@@ -89,14 +87,15 @@ func findProjectsByKeys(keys []string) []*jira.Project {
 
 // Make auth and instantiate
 func createJiraClient() *jira.Client {
-	// Load user name and access token from env
+	// Retrieve configs first
+	jc := retrieveJiraConfigs()
+	// Init auth transport
 	tp := jira.BasicAuthTransport{
-		Username: jiraConfigs.Username,
-		Password: jiraConfigs.Token,
+		Username: jc.Username,
+		Password: jc.Token,
 	}
-
-	client, err := jira.NewClient(tp.Client(), jiraConfigs.TeamUrl)
-	// Fail in case of an error
+	// Try to init client
+	client, err := jira.NewClient(tp.Client(), jc.TeamUrl)
 	if err != nil {
 		logger.Instance().Errorf("Failed to init Jira client: %s\n", err)
 	}
@@ -104,7 +103,7 @@ func createJiraClient() *jira.Client {
 }
 
 // Retrieves jiraConfigs from environment, probably Jenkins
-func retrieveConfigs() *JiraConfig {
+func retrieveJiraConfigs() *JiraConfig {
 	return &JiraConfig{
 		Token:    os.Getenv("JIRA_TOKEN"),
 		Username: os.Getenv("JIRA_USERNAME"),

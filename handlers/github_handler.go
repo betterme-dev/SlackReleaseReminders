@@ -26,11 +26,9 @@ const (
 	organizationName = "betterme-dev"
 )
 
-var gitHubConfigs *GitHubConfig
 var gitHubClient *github.Client
 
 func init() {
-	gitHubConfigs = retrieveGitHubConfigs()
 	gitHubClient = createGitHubClient()
 }
 
@@ -77,11 +75,14 @@ func FetchRepositoriesReleases(repositoriesNames *[]string) *[]GitHubRepoRelease
 
 // Make auth and instantiate
 func createGitHubClient() *github.Client {
-	ctx := context.Background()
+	// Retrieve configs first
+	gitHubConfigs := retrieveGitHubConfigs()
+	// Init token source for auth2
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: gitHubConfigs.Token},
 	)
-	tc := oauth2.NewClient(ctx, ts)
+	// Try to init client
+	tc := oauth2.NewClient(context.Background(), ts)
 
 	return github.NewClient(tc)
 }
