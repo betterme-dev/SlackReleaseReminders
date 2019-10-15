@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"SlackReleaseReminders/common"
 	"SlackReleaseReminders/logger"
 	"fmt"
 	"github.com/ashwanthkumar/slack-go-webhook"
@@ -14,16 +15,18 @@ type (
 	}
 )
 
-func SendSlackAlarm(rName string, rVersion string, rUrl string) {
+const gitHubUrlScheme = "https://github.com/" + common.OrganizationName + "/"
+
+func SendSlackAlarm(repositoryName string, releaseVersion string) {
 	// Get Slack config
 	configs := retrieveSlackConfigs()
 
 	// Format message - repo name + repo version
-	message := fmt.Sprintf("Repository %s not tagged with release verison %s", rName, rVersion)
+	message := fmt.Sprintf("Repository: %s not tagged with release verison: %s", repositoryName, releaseVersion)
 
 	// Add repo url through the attachment
 	attachment := slack.Attachment{}
-	attachment.AddAction(slack.Action{Type: "button", Text: "RepoURL", Url: rUrl, Style: "danger"})
+	attachment.AddAction(slack.Action{Type: "button", Text: "RepoURL", Url: gitHubUrlScheme + repositoryName, Style: "danger"})
 
 	// Construct payload
 	payload := slack.Payload{

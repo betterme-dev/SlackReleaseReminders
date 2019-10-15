@@ -10,6 +10,7 @@ import (
 var logger *logrus.Logger
 var once sync.Once
 
+// Create Singleton instance of the logger
 func Instance() *logrus.Logger {
 	once.Do(func() {
 		logger = &logrus.Logger{

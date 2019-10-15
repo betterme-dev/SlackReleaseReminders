@@ -20,8 +20,12 @@ type (
 	}
 )
 
-const VersionToCheck = 4
+const (
+	VersionToCheck   = 4
+	OrganizationName = "betterme-dev"
+)
 
+// Fetches configs Jira Project Key - Repository name pairs, separate values as slice
 func FetchConfigs() (*[]ProjectRepositoryConfig, *ProjectsRepositories) {
 	// setup viper
 	viper.Reset()
@@ -64,6 +68,6 @@ func mapToProjectsRepositoriesSlices(prc *[]ProjectRepositoryConfig) *ProjectsRe
 }
 
 func getBasePath() string {
-	_, b, _, _ := runtime.Caller(0)
-	return filepath.Dir(b)
+	_, file, _, _ := runtime.Caller(0)
+	return filepath.Dir(file)
 }

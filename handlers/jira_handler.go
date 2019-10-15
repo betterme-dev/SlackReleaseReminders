@@ -6,6 +6,8 @@ import (
 	"github.com/andygrunwald/go-jira"
 	"os"
 	"sort"
+	"strings"
+	"unicode"
 )
 
 type (
@@ -26,6 +28,7 @@ func init() {
 	jiraClient = createJiraClient()
 }
 
+// Fetches projects releases by passed Jira projects keys
 func RetrieveJiraVersionsByKeys(jiraKeys []string) []*JiraRecentVersions {
 	lastVersions := make([]*JiraRecentVersions, 0)
 	projects := findProjectsByKeys(jiraKeys)
@@ -35,6 +38,7 @@ func RetrieveJiraVersionsByKeys(jiraKeys []string) []*JiraRecentVersions {
 	return lastVersions
 }
 
+// Retrieves releases versions from specified project
 func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 	// First we need to be sure that versions sorted by release date
 	allVersions := project.Versions
@@ -52,7 +56,9 @@ func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 	// Extract version names
 	versionNames := make([]string, 0)
 	for _, version := range releasedVersions {
-		versionNames = append(versionNames, version.Name)
+		versionNames = append(versionNames, strings.TrimFunc(version.Name, func(r rune) bool {
+			return !unicode.IsNumber(r)
+		}))
 	}
 
 	// If there are less than VersionToCheck in the project - take all of them
@@ -70,6 +76,7 @@ func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 	}
 }
 
+// Retrieves projects by specified keys
 func findProjectsByKeys(keys []string) []*jira.Project {
 	teamProjects := make([]*jira.Project, 0)
 
