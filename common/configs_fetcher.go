@@ -35,15 +35,13 @@ func FetchConfigs() (*[]ProjectRepositoryConfig, *ProjectsRepositories) {
 	viper.AddConfigPath(getBasePath() + "/configs")
 	viper.SetConfigName(os.Getenv("PROJECTS_REPOSITORIES_CONFIG"))
 	// read config and check if any error occurs
-	err := viper.ReadInConfig()
-	if err != nil {
+	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("Failed to read the configs: %s\n", err)
 	}
 
 	var conf *[]ProjectRepositoryConfig
 	// unmarshal read configs to the struct
-	err = viper.UnmarshalKey(configsParamsKey, &conf)
-	if err != nil {
+	if err := viper.UnmarshalKey(configsParamsKey, &conf); err != nil {
 		log.Fatalf("Unable to decode into config struct, %s\n", err)
 	}
 

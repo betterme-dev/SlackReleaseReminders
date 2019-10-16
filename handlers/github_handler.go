@@ -22,10 +22,10 @@ type (
 	}
 )
 
-var gitHubClient *github.Client
+var githubClient *github.Client
 
 func init() {
-	gitHubClient = createGitHubClient()
+	githubClient = createGitHubClient()
 }
 
 // Fetches repository releases by repository names
@@ -34,7 +34,7 @@ func FetchRepositoriesReleasesByRepoNames(repositoriesNames *[]string) *[]GitHub
 	// Loop through all required repositories
 	for _, repoName := range *repositoriesNames {
 		// Request list of releases for each of repository
-		repoReleases, _, err := gitHubClient.Repositories.ListReleases(context.Background(), common.OrganizationName, repoName, &github.ListOptions{})
+		repoReleases, _, err := githubClient.Repositories.ListReleases(context.Background(), common.OrganizationName, repoName, &github.ListOptions{})
 		if err != nil {
 			log.Fatalf("Failed to fetch releases for repository: %s with error %s\n", repoName, err)
 		}
