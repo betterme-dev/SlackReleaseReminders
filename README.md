@@ -5,7 +5,7 @@ specified Slack channel.
 
 In other words - it reminds to Git tag release version of the source code.
 
-Release Version in Jira should be with status **Released**.
+Release Version in Jira should be with status **Released** anc it will check last **4** versions.
 
 
 ## How to setup:
@@ -17,20 +17,20 @@ There are bunch of the environment variables that can be used for specific confi
 
 #### Slack configuration:
 
-**SLACK_WEBHOOK_URL** - webhook url, that you can configure through the team's Settings/Apps/Incoming Webhook section.
-**SLACK_WEBHOOK_URL** - simply channel name in which you want to receive notifications.
+```SLACK_WEBHOOK_URL``` - webhook url, that you can configure through the team's Settings/Apps/Incoming Webhook section.
+```SLACK_WEBHOOK_URL``` - simply channel name in which you want to receive notifications.
 
 #### Jira configuration:
 
-**JIRA_TOKEN** - token to make an auth.
+```JIRA_TOKEN``` - token to make an auth.
 
-**JIRA_USERNAME** - username (could be an email) to make an auth.
+```JIRA_USERNAME``` - username (could be an email) to make an auth.
 
-**JIRA_PROJECT_URL** - should be https://newsiteam.atlassian.net by default.
+```JIRA_PROJECT_URL``` - should be https://newsiteam.atlassian.net by default.
 
 #### GitHub configuration:
 
-**GITHUB_TOKEN** - A GitHub token with **admin:org** access (is needed to access organization's repositories).
+```GITHUB_TOKEN``` - A GitHub token with **admin:org** access (is needed to access organization's repositories).
 
 #### Jira project - GitHub repository mapping config:
 
@@ -53,7 +53,7 @@ projects-repositories:
      repository: 'Running-Android'
 ```
 
-**PROJECTS_REPOSITORIES_CONFIG** - the environment variable that corresponds to the config file name, that should be
+```PROJECTS_REPOSITORIES_CONFIG``` - the environment variable that corresponds to the config file name, that should be
 provided through the Jenkins.
 
 ## Docker deployment:
