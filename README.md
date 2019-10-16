@@ -56,6 +56,13 @@ projects-repositories:
 ```PROJECTS_REPOSITORIES_CONFIG``` - the environment variable that corresponds to the config file name, that should be
 provided through the Jenkins.
 
+#### Docker deployment:
+
+Docker image deployed to the Docker hub: ```betterme/slack-release-reminders:1.0.0```.
+
+Ask DevOps team to access the image if needed.
+
 #### Jenkins:
 
-#### Docker deployment:
+You can lookup Jenkins configuration in the ```Android_Slack_Release_Reminders``` job.
+It's a pipeline job which is scheduled to run periodically using CRON.
