@@ -13,7 +13,7 @@ type (
 )
 
 // Finds diffs between Jira projects releases and GitHub releases, fires send Slack call back if diff has been found
-func CalculateDiff(prjVersions *[]merger.ProjectRepositoryJiraVersions, repositoriesReleases *[]handlers.GitHubRepoReleases) *[]RepoReleaseDiff {
+func CalculateDiff(prjVersions *[]merger.ProjectRepositoryJiraVersions, repositoriesReleases *[]handlers.GitHubRepoReleases) []RepoReleaseDiff {
 	diffResult := make([]RepoReleaseDiff, 0)
 	// Iterate over all jira project-repository versions configs
 	for _, prjVersion := range *prjVersions {
@@ -37,7 +37,7 @@ func CalculateDiff(prjVersions *[]merger.ProjectRepositoryJiraVersions, reposito
 		}
 	}
 
-	return &diffResult
+	return diffResult
 }
 
 // Difference returns the elements in `a` that aren't in `b`, using maps under the hood,

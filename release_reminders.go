@@ -27,8 +27,8 @@ func main() {
 	// Calculate diff, send slack alarm if needed
 	diffResult := differ.CalculateDiff(mergedResults, repositoriesReleases)
 	// If diff found - loop through the all missed versions and send notification
-	if len(*diffResult) > 0 {
-		for _, repo := range *diffResult {
+	if len(diffResult) > 0 {
+		for _, repo := range diffResult {
 			for _, version := range repo.MissedVersions {
 				log.Infof("Sending reminder for repo: %s about version: %s\n", repo.RepoName, version)
 				handlers.SendSlackAlarm(repo.RepoName, version)
