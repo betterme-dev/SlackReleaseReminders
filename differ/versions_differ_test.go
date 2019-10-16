@@ -23,10 +23,10 @@ func TestCalculateDiffFound(t *testing.T) {
 }
 
 func createProjectRepositoryJiraVersions(releasesCount int) *[]merger.ProjectRepositoryJiraVersions {
-	data := make([]merger.ProjectRepositoryJiraVersions, 0)
+	data := make([]merger.ProjectRepositoryJiraVersions, 0, 6)
 
 	for i := 1; i <= 6; i++ {
-		latestVersions := make([]string, 0)
+		latestVersions := make([]string, 0, releasesCount)
 		for j := 1; j <= releasesCount; j++ {
 			latestVersions = append(latestVersions, fmt.Sprintf("%d.%d.%d", j, j, j))
 		}
@@ -41,10 +41,10 @@ func createProjectRepositoryJiraVersions(releasesCount int) *[]merger.ProjectRep
 }
 
 func createGitHubRepoReleases(tagsCount int) *[]handlers.GitHubRepoReleases {
-	data := make([]handlers.GitHubRepoReleases, 0)
+	data := make([]handlers.GitHubRepoReleases, 0, 6)
 
 	for i := 1; i <= 6; i++ {
-		latestVersions := make([]string, 0)
+		latestVersions := make([]string, 0, tagsCount)
 		for j := 1; j <= tagsCount; j++ {
 			latestVersions = append(latestVersions, fmt.Sprintf("%d.%d.%d", j, j, j))
 		}

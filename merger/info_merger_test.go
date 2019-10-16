@@ -33,11 +33,11 @@ func createProjectsRepositoriesConfigs() *[]common.ProjectRepositoryConfig {
 }
 
 func createJiraVersions() []*handlers.JiraRecentVersions {
-	data := make([]*handlers.JiraRecentVersions, 0)
+	data := make([]*handlers.JiraRecentVersions, 0, 5)
 
 	for i := 0; i <= 5; i++ {
 		for j := 0; j <= 4; j++ {
-			latestVersions := make([]string, 0)
+			latestVersions := make([]string, 0, 4)
 			latestVersions = append(latestVersions, fmt.Sprintf("%d.%d.%d", j, j, j))
 
 			data = append(data, &handlers.JiraRecentVersions{
@@ -51,11 +51,11 @@ func createJiraVersions() []*handlers.JiraRecentVersions {
 }
 
 func createMergedResults() *[]ProjectRepositoryJiraVersions {
-	data := make([]ProjectRepositoryJiraVersions, 0)
+	data := make([]ProjectRepositoryJiraVersions, 0, 5)
 
 	for i := 0; i <= 5; i++ {
 		for j := 0; j <= 4; j++ {
-			latestVersions := make([]string, 0)
+			latestVersions := make([]string, 0, 4)
 			latestVersions = append(latestVersions, fmt.Sprintf("%d.%d.%d", j, j, j))
 
 			data = append(data, ProjectRepositoryJiraVersions{
