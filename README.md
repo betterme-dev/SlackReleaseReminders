@@ -5,7 +5,7 @@ specified Slack channel.
 
 In other words - it reminds to Git tag release version of the source code.
 
-Release Version in Jira should be with status **Released** and it will check last **4** versions.
+Release Version in Jira should be with status **Released**. Tool will compare last **4** Jira/GitHub versions.
 
 
 ## How to setup:
