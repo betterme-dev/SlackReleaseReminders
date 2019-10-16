@@ -20,20 +20,22 @@ func CalculateDiff(prjVersions *[]merger.ProjectRepositoryJiraVersions, reposito
 	diffForRepoFound:
 		// Iterate over all github releases
 		for _, repositoryRelease := range *repositoriesReleases {
-			// If names repos names matched - should check releases difference
-			if prjVersion.RepositoryName == repositoryRelease.RepositoryName {
-				// Find missed git tags
-				missedTags := findDifference(prjVersion.JiraVersions, repositoryRelease.TaggedVersions)
-				// If slice not empty - diff found
-				if len(missedTags) > 0 {
-					diffResult = append(diffResult, RepoReleaseDiff{
-						RepoName:       prjVersion.RepositoryName,
-						MissedVersions: missedTags,
-					})
-					// Versions diff for this repo has been computed - should start with the next one
-					break diffForRepoFound
-				}
+			// If names repos names not matched - skip iteration
+			if prjVersion.RepositoryName != repositoryRelease.RepositoryName {
+				continue
 			}
+			// Find missed git tags
+			missedTags := findDifference(prjVersion.JiraVersions, repositoryRelease.TaggedVersions)
+			// If slice is empty - diff not found, skip iteration
+			if len(missedTags) == 0 {
+				continue
+			}
+			diffResult = append(diffResult, RepoReleaseDiff{
+				RepoName:       prjVersion.RepositoryName,
+				MissedVersions: missedTags,
+			})
+			// Versions diff for this repo has been computed - should start with the next one
+			break diffForRepoFound
 		}
 	}
 

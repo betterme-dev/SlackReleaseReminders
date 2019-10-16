@@ -12,14 +12,14 @@ func TestCalculateDiffNotFound(t *testing.T) {
 	prjVersions := createProjectRepositoryJiraVersions(5)
 	repoReleases := createGitHubRepoReleases(5)
 
-	assert.Empty(t, *CalculateDiff(prjVersions, repoReleases))
+	assert.Empty(t, CalculateDiff(prjVersions, repoReleases))
 }
 
 func TestCalculateDiffFound(t *testing.T) {
 	prjVersions := createProjectRepositoryJiraVersions(5)
 	repoReleases := createGitHubRepoReleases(4)
 
-	assert.NotEmpty(t, *CalculateDiff(prjVersions, repoReleases))
+	assert.NotEmpty(t, CalculateDiff(prjVersions, repoReleases))
 }
 
 func createProjectRepositoryJiraVersions(releasesCount int) *[]merger.ProjectRepositoryJiraVersions {
