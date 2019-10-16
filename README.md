@@ -56,4 +56,6 @@ projects-repositories:
 ```PROJECTS_REPOSITORIES_CONFIG``` - the environment variable that corresponds to the config file name, that should be
 provided through the Jenkins.
 
-## Docker deployment:
+#### Jenkins:
+
+#### Docker deployment:

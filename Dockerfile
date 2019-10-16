@@ -1,4 +1,7 @@
-FROM golang:1.13.1
+# Alpine as mininal image
+FROM golang:alpine
+# Git for go get
+RUN apk update && apk add --no-cache git
 
 # Enable go modules support in gopath
 ENV GO111MODULE=on
@@ -13,5 +16,7 @@ COPY go.sum .
 RUN go mod download
 
 COPY . .
-
+# Build
 RUN go build -o $GOPATH/bin/app
+# Set default entrypoint
+CMD ["/go/bin/app"]
