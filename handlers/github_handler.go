@@ -30,7 +30,7 @@ func init() {
 
 // Fetches repository releases by repository names
 func FetchRepositoriesReleasesByRepoNames(repositoriesNames *[]string) *[]GitHubRepoReleases {
-	repositoriesReleases := make([]GitHubRepoReleases, 0)
+	repositoriesReleases := make([]GitHubRepoReleases, 0, len(*repositoriesNames))
 	// Loop through all required repositories
 	for _, repoName := range *repositoriesNames {
 		// Request list of releases for each of repository
@@ -44,7 +44,7 @@ func FetchRepositoriesReleasesByRepoNames(repositoriesNames *[]string) *[]GitHub
 		})
 
 		// Iterate over all repository releases and grab releases tags names, extracting versions symbols from them
-		tagsNames := make([]string, 0)
+		tagsNames := make([]string, 0, len(repoReleases))
 		for _, release := range repoReleases {
 			tagsNames = append(tagsNames, strings.TrimFunc(*release.TagName, func(r rune) bool {
 				return !unicode.IsNumber(r)

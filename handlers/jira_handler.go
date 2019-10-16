@@ -30,7 +30,7 @@ func init() {
 
 // Fetches projects releases by passed Jira projects keys
 func RetrieveJiraVersionsByKeys(jiraKeys []string) []*JiraRecentVersions {
-	lastVersions := make([]*JiraRecentVersions, 0)
+	lastVersions := make([]*JiraRecentVersions, 0, len(jiraKeys))
 	projects := findProjectsByKeys(jiraKeys)
 	for _, p := range projects {
 		lastVersions = append(lastVersions, extractVersionsForProject(p))
@@ -54,7 +54,7 @@ func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 	}
 
 	// Extract version names
-	versionNames := make([]string, 0)
+	versionNames := make([]string, 0, len(releasedVersions))
 	for _, version := range releasedVersions {
 		versionNames = append(versionNames, strings.TrimFunc(version.Name, func(r rune) bool {
 			return !unicode.IsNumber(r)
@@ -78,7 +78,7 @@ func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 
 // Retrieves projects by specified keys
 func findProjectsByKeys(keys []string) []*jira.Project {
-	teamProjects := make([]*jira.Project, 0)
+	teamProjects := make([]*jira.Project, 0, len(keys))
 
 	for _, key := range keys {
 		// Try to retrieve project by the provided key

@@ -3,6 +3,7 @@ package common
 import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"os"
 	"path/filepath"
 	"runtime"
 )
@@ -23,7 +24,7 @@ type (
 const (
 	VersionToCheck   = 4
 	OrganizationName = "betterme-dev"
-	configKey        = "projects-repositories"
+	configsParamsKey = "projects-repositories"
 )
 
 // Fetches configs Jira Project Key - Repository name pairs, separate values as slice
@@ -32,8 +33,7 @@ func FetchConfigs() (*[]ProjectRepositoryConfig, *ProjectsRepositories) {
 	viper.Reset()
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(getBasePath() + "/configs")
-	//viper.SetConfigName(os.Getenv("PROJECTS_REPOSITORIES_CONFIG"))
-	viper.SetConfigName("android_projects_repositories")
+	viper.SetConfigName(os.Getenv("PROJECTS_REPOSITORIES_CONFIG"))
 	// read config and check if any error occurs
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -42,7 +42,7 @@ func FetchConfigs() (*[]ProjectRepositoryConfig, *ProjectsRepositories) {
 
 	var conf *[]ProjectRepositoryConfig
 	// unmarshal read configs to the struct
-	err = viper.UnmarshalKey(configKey, &conf)
+	err = viper.UnmarshalKey(configsParamsKey, &conf)
 	if err != nil {
 		log.Fatalf("Unable to decode into config struct, %s\n", err)
 	}
