@@ -18,7 +18,7 @@ There are bunch of the environment variables that can be used for specific confi
 #### Slack configuration:
 
 ```SLACK_WEBHOOK_URL``` - webhook url, that you can configure through the team's Settings/Apps/Incoming Webhook section.
-```SLACK_WEBHOOK_URL``` - simply channel name in which you want to receive notifications.
+```SLACK_CHANNEL_NAME``` - channel name in which you want to receive notifications.
 
 #### Jira configuration:
 
