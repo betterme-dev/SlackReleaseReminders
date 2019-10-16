@@ -29,10 +29,10 @@ func init() {
 }
 
 // Fetches repository releases by repository names
-func FetchRepositoriesReleasesByRepoNames(repositoriesNames *[]string) *[]GitHubRepoReleases {
-	repositoriesReleases := make([]GitHubRepoReleases, 0, len(*repositoriesNames))
+func FetchRepositoriesReleasesByRepoNames(repositoriesNames []string) *[]GitHubRepoReleases {
+	repositoriesReleases := make([]GitHubRepoReleases, 0, len(repositoriesNames))
 	// Loop through all required repositories
-	for _, repoName := range *repositoriesNames {
+	for _, repoName := range repositoriesNames {
 		// Request list of releases for each of repository
 		repoReleases, _, err := githubClient.Repositories.ListReleases(context.Background(), common.OrganizationName, repoName, &github.ListOptions{})
 		if err != nil {

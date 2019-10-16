@@ -19,7 +19,7 @@ func main() {
 	// Merge fetched configs with latest jira versions
 	mergedResults := merger.MergeProjectRepositoryConfigWithJiraVersions(configs, jiraVersions)
 	// Fetch latest repositories versions
-	repositoriesReleases := handlers.FetchRepositoriesReleasesByRepoNames(&groupedConfigs.RepositoriesNames)
+	repositoriesReleases := handlers.FetchRepositoriesReleasesByRepoNames(groupedConfigs.RepositoriesNames)
 	// There is a probably mismatch between Jira projects count and scanned repos count
 	if len(*mergedResults) != len(*repositoriesReleases) {
 		log.Fatalf("Mismatch between Jira projects count and scanned repos count!")
