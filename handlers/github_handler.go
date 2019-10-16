@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"SlackReleaseReminders/common"
-	"SlackReleaseReminders/logger"
 	"context"
 	"github.com/google/go-github/github"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 	"os"
 	"sort"
@@ -36,7 +36,7 @@ func FetchRepositoriesReleasesByRepoNames(repositoriesNames *[]string) *[]GitHub
 		// Request list of releases for each of repository
 		repoReleases, _, err := gitHubClient.Repositories.ListReleases(context.Background(), common.OrganizationName, repoName, &github.ListOptions{})
 		if err != nil {
-			logger.Instance().Errorf("Failed to fetch releases for repository: %s with error %s\n", repoName, err)
+			log.Fatalf("Failed to fetch releases for repository: %s with error %s\n", repoName, err)
 		}
 		// Sort list by published time (just in case they ain't sorted)
 		sort.Slice(repoReleases, func(i, j int) bool {

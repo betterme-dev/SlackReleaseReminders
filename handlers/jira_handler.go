@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"SlackReleaseReminders/common"
-	"SlackReleaseReminders/logger"
 	"github.com/andygrunwald/go-jira"
+	log "github.com/sirupsen/logrus"
 	"os"
 	"sort"
 	"strings"
@@ -84,7 +84,7 @@ func findProjectsByKeys(keys []string) []*jira.Project {
 		// Try to retrieve project by the provided key
 		project, _, err := jiraClient.Project.Get(key)
 		if err != nil {
-			logger.Instance().Errorf("Failed to retrieve project details by key: %s with error: %s\n", key, err)
+			log.Fatalf("Failed to retrieve project details by key: %s with error: %s\n", key, err)
 		}
 		teamProjects = append(teamProjects, project)
 	}
@@ -104,7 +104,7 @@ func createJiraClient() *jira.Client {
 	// Try to init client
 	client, err := jira.NewClient(tp.Client(), jc.TeamUrl)
 	if err != nil {
-		logger.Instance().Errorf("Failed to init Jira client: %s\n", err)
+		log.Fatalf("Failed to init Jira client: %s\n", err)
 	}
 	return client
 }

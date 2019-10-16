@@ -1,9 +1,8 @@
 package common
 
 import (
-	"SlackReleaseReminders/logger"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"os"
 	"path/filepath"
 	"runtime"
 )
@@ -33,18 +32,19 @@ func FetchConfigs() (*[]ProjectRepositoryConfig, *ProjectsRepositories) {
 	viper.Reset()
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(getBasePath() + "/configs")
-	viper.SetConfigName(os.Getenv("PROJECTS_REPOSITORIES_CONFIG"))
+	//viper.SetConfigName(os.Getenv("PROJECTS_REPOSITORIES_CONFIG"))
+	viper.SetConfigName("android_projects_repositories")
 	// read config and check if any error occurs
 	err := viper.ReadInConfig()
 	if err != nil {
-		logger.Instance().Errorf("Failed to read the configs: %s\n", err)
+		log.Fatalf("Failed to read the configs: %s\n", err)
 	}
 
 	var conf *[]ProjectRepositoryConfig
 	// unmarshal read configs to the struct
 	err = viper.UnmarshalKey(configKey, &conf)
 	if err != nil {
-		logger.Instance().Errorf("Unable to decode into config struct, %s\n", err)
+		log.Fatalf("Unable to decode into config struct, %s\n", err)
 	}
 
 	return conf, mapToProjectsRepositoriesSlices(conf)

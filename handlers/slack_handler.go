@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"SlackReleaseReminders/common"
-	"SlackReleaseReminders/logger"
 	"fmt"
 	"github.com/ashwanthkumar/slack-go-webhook"
+	log "github.com/sirupsen/logrus"
 	"os"
 )
 
@@ -35,7 +35,7 @@ func SendSlackAlarm(repositoryName string, releaseVersion string) {
 	err := slack.Send(configs.WebHookUrl, "", payload)
 
 	if err != nil {
-		logger.Instance().Errorln("Failed to send slack alarm: %s", err)
+		log.Fatalf("Failed to send slack alarm: %s", err)
 	}
 }
 
