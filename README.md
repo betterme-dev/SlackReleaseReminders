@@ -58,7 +58,7 @@ provided through the Jenkins.
 
 #### Docker deployment:
 
-Docker image deployed to the Docker hub: ```betterme/slack-release-reminders:1.0.0```.
+Docker image deployed to the Docker hub: ```betterme/slack-release-reminders:1.0.1```.
 
 Ask DevOps team to access the image if needed.
 
