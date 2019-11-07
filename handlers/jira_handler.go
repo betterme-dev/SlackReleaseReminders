@@ -61,8 +61,8 @@ func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 		}))
 	}
 
-	// If there are less than VersionToCheck in the project - take all of them
-	if len(versionNames) <= common.VersionToCheck {
+	// If there are less than JiraVersionsToCheck in the project - take all of them
+	if len(versionNames) <= common.JiraVersionsToCheck {
 		return &JiraRecentVersions{
 			ProjectKey:     project.Key,
 			LatestVersions: versionNames,
@@ -71,7 +71,7 @@ func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 	// Otherwise take last 4 versions
 	return &JiraRecentVersions{
 		ProjectKey:     project.Key,
-		LatestVersions: versionNames[len(versionNames)-common.VersionToCheck:],
+		LatestVersions: versionNames[len(versionNames)-common.JiraVersionsToCheck:],
 	}
 }
 
