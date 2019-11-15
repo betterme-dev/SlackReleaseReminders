@@ -1,6 +1,6 @@
 projects-repositories:
   - project: 'WLA'
-    repository: 'ANDROID_BETTERME'
+    repository: 'WeightLoss-Android'
   - project: 'MEDA'
     repository: 'Meditation-Android'
   - project: 'MENA'
