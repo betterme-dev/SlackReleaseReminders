@@ -51,8 +51,8 @@ func FetchRepositoriesReleasesByRepoNames(repositoriesNames []string) *[]GitHubR
 			}))
 		}
 
-		// If there are less than VersionToCheck in the project - take all of them
-		if len(tagsNames) <= common.VersionToCheck {
+		// If there are less than GitHubVersionsToCheck in the project - take all of them
+		if len(tagsNames) <= common.GitHubVersionsToCheck {
 			// Collect results into Repository name + list of git tags names structure
 			repositoriesReleases = append(repositoriesReleases, GitHubRepoReleases{
 				RepositoryName: repoName,
@@ -62,7 +62,7 @@ func FetchRepositoriesReleasesByRepoNames(repositoriesNames []string) *[]GitHubR
 			// Collect results into Repository name + list of git tags names structure
 			repositoriesReleases = append(repositoriesReleases, GitHubRepoReleases{
 				RepositoryName: repoName,
-				TaggedVersions: tagsNames[len(tagsNames)-common.VersionToCheck:],
+				TaggedVersions: tagsNames[len(tagsNames)-common.GitHubVersionsToCheck:],
 			})
 		}
 	}

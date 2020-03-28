@@ -22,9 +22,10 @@ type (
 )
 
 const (
-	VersionToCheck   = 4
-	OrganizationName = "betterme-dev"
-	configsParamsKey = "projects-repositories"
+	JiraVersionsToCheck   = 4
+	GitHubVersionsToCheck = 7
+	OrganizationName      = "betterme-dev"
+	configsParamsKey      = "projects-repositories"
 )
 
 // Fetches configs Jira Project Key - Repository name pairs, separate values as slice
