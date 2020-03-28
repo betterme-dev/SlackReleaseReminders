@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"SlackReleaseReminders/common"
+	"SlackReleaseReminders/utils"
 	"github.com/andygrunwald/go-jira"
 	log "github.com/sirupsen/logrus"
 	"os"
@@ -45,23 +46,26 @@ func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 	sort.Slice(allVersions, func(i, j int) bool {
 		return allVersions[i].ReleaseDate <= allVersions[j].ReleaseDate
 	})
+
 	// Take into account only versions that are released, but not archived
-	releasedVersions := make([]jira.Version, 0)
 	for _, version := range project.Versions {
 		if version.Released && !version.Archived {
-			releasedVersions = append(releasedVersions, version)
+			allVersions = append(allVersions, version)
 		}
 	}
 
-	// Extract version names
-	versionNames := make([]string, 0, len(releasedVersions))
-	for _, version := range releasedVersions {
-		versionNames = append(versionNames, strings.TrimFunc(version.Name, func(r rune) bool {
-			return !unicode.IsNumber(r)
+	// Extract version numbers from the version names
+	versionCandidates := make([]string, 0, len(allVersions))
+	for _, version := range allVersions {
+		versionCandidates = append(versionCandidates, strings.TrimFunc(version.Name, func(r rune) bool {
+			return !unicode.IsDigit(r)
 		}))
 	}
 
-	// If there are less than JiraVersionsToCheck in the project - take all of them
+	// Delete all empty strings from the candidates
+	versionNames := utils.DeleteEmpty(versionCandidates)
+
+	// If there are less than VersionToCheck in the project - take all of them
 	if len(versionNames) <= common.JiraVersionsToCheck {
 		return &JiraRecentVersions{
 			ProjectKey:     project.Key,

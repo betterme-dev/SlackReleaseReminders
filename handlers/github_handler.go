@@ -3,7 +3,7 @@ package handlers
 import (
 	"SlackReleaseReminders/common"
 	"context"
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v30/github"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 	"os"
