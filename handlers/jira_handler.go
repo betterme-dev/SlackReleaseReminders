@@ -47,7 +47,7 @@ func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 		return allVersions[i].ReleaseDate <= allVersions[j].ReleaseDate
 	})
 
-	// Filter releases that were done by backend team
+	// Filter versions that were done by backend team
 	androidVersions := make([]jira.Version, 0)
 	for _, version := range allVersions {
 		if !strings.HasPrefix(version.Name, "backend") {
