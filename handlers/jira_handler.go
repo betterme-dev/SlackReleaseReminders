@@ -47,16 +47,25 @@ func extractVersionsForProject(project *jira.Project) *JiraRecentVersions {
 		return allVersions[i].ReleaseDate <= allVersions[j].ReleaseDate
 	})
 
+	// Filter versions that were done by backend team
+	androidVersions := make([]jira.Version, 0)
+	for _, version := range allVersions {
+		if !strings.HasPrefix(version.Name, "backend") {
+			androidVersions = append(androidVersions, version)
+		}
+	}
+
 	// Take into account only versions that are released, but not archived
-	for _, version := range project.Versions {
+	releasedNotArchivedVersions := make([]jira.Version, 0)
+	for _, version := range androidVersions {
 		if version.Released && !version.Archived {
-			allVersions = append(allVersions, version)
+			releasedNotArchivedVersions = append(releasedNotArchivedVersions, version)
 		}
 	}
 
 	// Extract version numbers from the version names
-	versionCandidates := make([]string, 0, len(allVersions))
-	for _, version := range allVersions {
+	versionCandidates := make([]string, 0, len(releasedNotArchivedVersions))
+	for _, version := range releasedNotArchivedVersions {
 		versionCandidates = append(versionCandidates, strings.TrimFunc(version.Name, func(r rune) bool {
 			return !unicode.IsDigit(r)
 		}))
