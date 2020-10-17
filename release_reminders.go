@@ -20,11 +20,11 @@ func main() {
 	mergedResults := merger.MergeProjectRepositoryConfigWithJiraVersions(configs, jiraVersions)
 	// Fetch latest repositories versions
 	repositoriesReleases := handlers.FetchRepositoriesReleasesByRepoNames(groupedConfigs.RepositoriesNames)
-	// There is a probably mismatch between Jira projects count and scanned repos count
+	// There is probably a mismatch between Jira projects count and scanned repos count
 	if len(*mergedResults) != len(*repositoriesReleases) {
 		log.Fatalf("Mismatch between Jira projects count and scanned repos count!")
 	}
-	// Calculate diff, send slack alarm if needed
+	// Calculate diff
 	diffResult := differ.CalculateDiff(mergedResults, repositoriesReleases)
 	// If diff found - loop through the all missed versions and send notification
 	if len(diffResult) > 0 {
