@@ -1,0 +1,31 @@
+on: [push]
+name: Test
+jobs:
+  test:
+    strategy:
+      matrix:
+        go-version: [1.15.x]
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      # Install go version for each matrix item (for example ubuntu 1.14.x, macos 1.13.x)
+      - name: Install Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      #Checkout current revision of code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      #Cache/restore cached modules
+      - name: Cache modules
+        uses: actions/cache@v1
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      # Run all tests in all packages
+      - name: Test
+        run: go test ./...
