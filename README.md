@@ -12,7 +12,7 @@ Release Version in Jira should be with status **Released**. Tool will compare la
 
 The idea that tool will be triggered by Jenkins through the CRON job.
 
-There are bunch of the environment variables that can be used for specific configuration.
+There are a bunch of the environment variables that can be used for specific configuration.
 
 
 #### Slack configuration:
@@ -64,5 +64,22 @@ Ask DevOps team to access the image if needed.
 
 #### Jenkins:
 
-You can lookup Jenkins configuration in the ```Android_Slack_Release_Reminders``` job.
-It's a pipeline job which is scheduled to run periodically using CRON.
+You can use a pipeline job which is scheduled to run periodically using CRON. An example of running app inside the 
+Docker container:
+
+```
+node('node-name') {
+    stage('Check release versions') {
+        docker.image('betterme/slack-release-reminders:1.0.7').inside("-e SLACK_CHANNEL_NAME=${SLACK_CHANNEL_NAME} \
+        -e SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL} \
+        -e JIRA_USERNAME=${JIRA_USERNAME} \
+        -e JIRA_TOKEN=${JIRA_TOKEN} \
+        -e JIRA_PROJECT_URL=${JIRA_PROJECT_URL} \
+        -e PROJECTS_REPOSITORIES_CONFIG=${PROJECTS_REPOSITORIES_CONFIG} \
+        -e GITHUB_TOKEN=${GITHUB_TOKEN}") {
+             sh "/go/bin/app"
+        }
+    }
+}
+```
+All parameters can be injected through the *General* -> *This project is parametrized* settings.
